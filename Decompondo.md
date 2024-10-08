@@ -58,4 +58,50 @@ Função: Coordena a interação entre os módulos e controla o fluxo de execuç
 
 ## Métricas de comparação
 
-*Ainda sendo decididas*
+1 - Tempo de Execução
+
+Utilidade: Avalia a eficiência do software em termos de tempo necessário para processar as entradas e gerar os resultados. É útil para comparar qual implementação é mais eficiente em termos de processamento, especialmente ao lidar com grandes volumes de dados.
+
+Como medir: Medir o tempo que cada versão leva para processar uma lista de linhas e gerar o KWIC index.
+
+2 - Uso de Memória
+
+Utilidade: O primeiro modelo armazena as informações em formato mais cru (índices), enquanto o segundo encapsula os dados em estruturas de maior abstração. Comparar o uso de memória ajuda a entender o custo de abstração do segundo modelo.
+
+Como medir: Observar o consumo de memória durante a execução de cada versão do software.
+
+3 - Acoplamento
+
+Utilidade: O acoplamento entre módulos reflete a dependência entre eles. Menos acoplamento é desejável, pois facilita a manutenção e a evolução do sistema.
+
+Como medir: Calcular o número de dependências diretas entre os módulos e funções em cada versão.
+
+4 - Coesão
+
+Utilidade: Avalia o quanto um módulo tem uma responsabilidade única e bem definida. Alta coesão é desejável, pois melhora a compreensão e facilita a modificação de um módulo sem impacto em outros.
+
+Como medir: Avaliar a coesão observando a especialização de cada módulo em sua tarefa.
+
+5 - Complexidade Ciclomática
+
+Utilidade: Mede a complexidade lógica do código, ou seja, o número de caminhos independentes que podem ser seguidos durante a execução. Menor complexidade indica um código mais fácil de manter e testar.
+
+Como medir: Calcular a complexidade ciclomática analisando o diagrama de fluxo de controle do código.
+
+6 - Facilidade de Manutenção
+
+Utilidade: A manutenção do código envolve a facilidade de entender, modificar e corrigir problemas no software.
+
+Como medir: Simular mudanças nas especificações do sistema e observar o número de módulos afetados.
+
+7 - Facilidade de Testes Unitários
+
+Utilidade: Um design modular bem feito deve facilitar a criação de testes unitários para cada módulo independentemente.
+
+Como medir: Avaliar o esforço necessário para criar testes independentes para cada módulo e o número de dependências entre os testes.
+
+8 - Escalabilidade
+
+Utilidade: Avalia a capacidade de cada versão de lidar com aumentos no tamanho ou na complexidade dos dados de entrada.
+
+Como medir: Testar cada versão com diferentes volumes de entrada e verificar o desempenho e a facilidade de adaptação a esses cenários.
