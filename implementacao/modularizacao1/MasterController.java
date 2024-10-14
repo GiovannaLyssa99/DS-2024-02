@@ -44,7 +44,7 @@ public class MasterController {
 
             controller.run(inputFile, outputFile);
         } else {
-            System.out.println("Usage: java MasterController <inputFile> [outputFile]");
+            System.out.println("Uso: java ControladorPrincipal <arquivoEntrada> [arquivoSaida]");
         }
     }
 }
