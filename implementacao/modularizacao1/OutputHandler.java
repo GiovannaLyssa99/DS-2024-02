@@ -3,7 +3,7 @@ package implementacao.modularizacao1;
 public class OutputHandler {
 
     public void printOutput(String[] sortedLines) {
-        System.out.println("Saída KWIC:");
+        System.out.println("Saida KWIC:");
         for (String line : sortedLines) {
             System.out.println(line);
         }
@@ -14,7 +14,7 @@ public class OutputHandler {
             for (String line : sortedLines) {
                 writer.println(line);
             }
-            System.out.println("Saída salva no arquivo: " + fileName);
+            System.out.println("Saida salva no arquivo: " + fileName);
         } catch (java.io.IOException e) {
             System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
         }
