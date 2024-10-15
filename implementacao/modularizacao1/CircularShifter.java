@@ -5,35 +5,60 @@ import java.util.List;
 
 public class CircularShifter {
 
-    public static class Pair<K, V> {
-        public K first;
-        public V second;
+    public static class ShiftInfo {
+        public int lineIndex;
+        public int startIndex;
 
-        public Pair(K first, V second) {
-            this.first = first;
-            this.second = second;
+        public ShiftInfo(int lineIndex, int startIndex) {
+            this.lineIndex = lineIndex;
+            this.startIndex = startIndex;
         }
     }
 
-    public List<Pair<Integer, String>> generateCircularShifts(String[] lines) {
-        List<Pair<Integer, String>> circularShifts = new ArrayList<>();
+    private List<ShiftInfo> shifts;
+    private Input input;
 
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-            String[] words = line.split(" ");
-            int wordCount = words.length;
+    public CircularShifter(Input input) {
+        this.input = input;
+        this.shifts = new ArrayList<>();
+    }
 
-            for (int j = 0; j < wordCount; j++) {
-                StringBuilder shiftedLine = new StringBuilder();
-                
-                for (int k = 0; k < wordCount; k++) {
-                    shiftedLine.append(words[(j + k) % wordCount]).append(" ");
-                }
+    public void generateCircularShifts() {
+        shifts.clear();
+        List<char[]> packedLines = input.getPackedLines();
+        List<int[]> wordStartIndices = input.getWordStartIndices();
 
-                circularShifts.add(new Pair<>(i, shiftedLine.toString().trim()));
+        for (int lineIndex = 0; lineIndex < packedLines.size(); lineIndex++) {
+            char[] packedLine = packedLines.get(lineIndex);
+            int[] wordIndices = wordStartIndices.get(lineIndex);
+            int wordCount = wordIndices.length;
+
+            for (int shiftStartWord = 0; shiftStartWord < wordCount; shiftStartWord++) {
+                int startIndex = wordIndices[shiftStartWord];
+                shifts.add(new ShiftInfo(lineIndex, startIndex));
             }
         }
+    }
 
-        return circularShifts;
+    public List<ShiftInfo> getShifts() {
+        return shifts;
+    }
+
+    public int getTotalShifts() {
+        return shifts.size();
+    }
+
+    public int getShiftStartIndex(int shiftIndex) {
+        if (shiftIndex >= 0 && shiftIndex < shifts.size()) {
+            return shifts.get(shiftIndex).startIndex;
+        }
+        return -1;
+    }
+
+    public int getOriginalLineIndex(int shiftIndex) {
+        if (shiftIndex >= 0 && shiftIndex < shifts.size()) {
+            return shifts.get(shiftIndex).lineIndex;
+        }
+        return -1;
     }
 }
