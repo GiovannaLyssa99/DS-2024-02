@@ -5,20 +5,7 @@ import java.util.HashSet;
 
 public class CircularShifter {
 
-    private LineStorage lineStorage;
-
-    public CircularShifter(LineStorage lineStorage) {
-        this.lineStorage = lineStorage;
-    }
-
-    public void setup() {
-        int numberOfLines = lineStorage.getNumberOfLines();
-        for (int i = 0; i < numberOfLines; i++) {
-            generateShiftsForLine(i);
-        }
-    }
-
-    private void generateShiftsForLine(int lineIndex) {
+    public void generateShiftsForLine(LineStorage lineStorage, int lineIndex) {
         int wordCount = lineStorage.getNumberOfWords(lineIndex);
         ArrayList<String> words = lineStorage.getAllLines().get(lineIndex);
         HashSet<String> uniqueShifts = new HashSet<>();
@@ -40,22 +27,10 @@ public class CircularShifter {
         }
     }
 
-    public char csChar(int shiftIndex, int wordIndex, int charIndex) {
-        return lineStorage.getChar(shiftIndex, wordIndex, charIndex);
-    }
-
-    public int getTotalShifts() {
-        return lineStorage.getNumberOfLines();
-    }
-
-    public int getTotalWordsInShift(int shiftIndex) {
-        return lineStorage.getNumberOfWords(shiftIndex);
-    }
-
-    public String getWordInShift(int shiftIndex, int wordIndex) {
-        if (shiftIndex < lineStorage.getNumberOfLines()) {
-            return lineStorage.getAllLines().get(shiftIndex).get(wordIndex);
+    public void setup(LineStorage lineStorage) {
+        int numberOfLines = lineStorage.getNumberOfLines();
+        for (int i = 0; i < numberOfLines; i++) {
+            generateShiftsForLine(lineStorage, i);
         }
-        return null;
     }
 }

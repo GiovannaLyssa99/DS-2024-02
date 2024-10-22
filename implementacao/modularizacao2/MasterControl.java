@@ -11,16 +11,15 @@ public class MasterControl {
     public MasterControl() {
         lineStorage = new LineStorage();
         input = new Input(lineStorage);
-        circularShifter = new CircularShifter(lineStorage);
+        circularShifter = new CircularShifter();
         alphabetizer = new Alphabetizer();
         output = new Output();
     }
 
     public void run(String inputFile, String outputFile) {
         input.readLines(inputFile);
-        circularShifter.setup();
-        String[] sortedShifts = alphabetizer.alphabetize(circularShifter);
-
+        circularShifter.setup(lineStorage);
+        String[] sortedShifts = alphabetizer.alphabetize(circularShifter, lineStorage);
         output.printOutput(sortedShifts);
 
         if (outputFile != null && !outputFile.isEmpty()) {

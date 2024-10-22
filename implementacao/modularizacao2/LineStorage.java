@@ -53,18 +53,6 @@ public class LineStorage {
         return 0;
     }
 
-    public void deleteLine(int lineIndex) {
-        if (lineIndex < lines.size()) {
-            lines.remove(lineIndex);
-        }
-    }
-
-    public void deleteWord(int lineIndex, int wordIndex) {
-        if (lineIndex < lines.size() && wordIndex < lines.get(lineIndex).size()) {
-            lines.get(lineIndex).remove(wordIndex);
-        }
-    }
-
     public void addShiftedLine(String line) {
         ArrayList<String> words = new ArrayList<>();
         for (String word : line.split(" ")) {
