@@ -5,6 +5,9 @@ import java.util.List;
 
 public class CircularShifter {
 
+    private List<ShiftInfo> shifts;
+    private Input input;
+
     public static class ShiftInfo {
         public int lineIndex;
         public int startIndex;
@@ -15,9 +18,6 @@ public class CircularShifter {
         }
     }
 
-    private List<ShiftInfo> shifts;
-    private Input input;
-
     public CircularShifter(Input input) {
         this.input = input;
         this.shifts = new ArrayList<>();
@@ -26,16 +26,19 @@ public class CircularShifter {
     public void generateCircularShifts() {
         shifts.clear();
         List<char[]> packedLines = input.getPackedLines();
-        List<int[]> wordStartIndices = input.getWordStartIndices();
 
         for (int lineIndex = 0; lineIndex < packedLines.size(); lineIndex++) {
             char[] packedLine = packedLines.get(lineIndex);
-            int[] wordIndices = wordStartIndices.get(lineIndex);
-            int wordCount = wordIndices.length;
-
-            for (int shiftStartWord = 0; shiftStartWord < wordCount; shiftStartWord++) {
-                int startIndex = wordIndices[shiftStartWord];
-                shifts.add(new ShiftInfo(lineIndex, startIndex));
+            int wordStart = -1;
+            for (int i = 0; i < packedLine.length; i++) {
+                if (Character.isLetterOrDigit(packedLine[i])) {
+                    if (wordStart == -1) {
+                        wordStart = i;
+                        shifts.add(new ShiftInfo(lineIndex, wordStart));
+                    }
+                } else {
+                    wordStart = -1;
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ public class MasterControl {
         this.input = new Input();
         this.input.readInput(inputFile);
         this.circularShifter = new CircularShifter(input);
+        this.circularShifter.generateCircularShifts();
         this.alphabetizer = new Alphabetizer(input, circularShifter);
         this.output = new Output(input, alphabetizer);
         this.outputFile = outputFile;
@@ -19,7 +20,6 @@ public class MasterControl {
 
     public void process() {
         try {
-            circularShifter.generateCircularShifts();
             alphabetizer.alphabetize();
             output.writeOutput(outputFile);
         } catch (Exception e) {

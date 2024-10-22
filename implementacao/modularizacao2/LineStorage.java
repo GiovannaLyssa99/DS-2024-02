@@ -65,6 +65,14 @@ public class LineStorage {
         }
     }
 
+    public void addShiftedLine(String line) {
+        ArrayList<String> words = new ArrayList<>();
+        for (String word : line.split(" ")) {
+            words.add(word);
+        }
+        lines.add(words);
+    }
+
     public ArrayList<ArrayList<String>> getAllLines() {
         return lines;
     }

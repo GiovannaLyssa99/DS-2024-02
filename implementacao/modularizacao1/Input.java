@@ -1,29 +1,31 @@
 package implementacao.modularizacao1;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Input {
 
     private ArrayList<char[]> packedLines;
-    private ArrayList<int[]> wordStartIndices;
-    private final char WORD_END_MARKER = '#';
+    private ArrayList<Integer> lineStartIndices;
 
     public Input() {
         packedLines = new ArrayList<>();
-        wordStartIndices = new ArrayList<>();
+        lineStartIndices = new ArrayList<>();
     }
 
     public void readInput(String inputFile) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), "UTF-8"))) {
             String line;
+            int currentIndex = 0;
 
             while ((line = reader.readLine()) != null) {
                 char[] packedLine = packLine(line);
                 packedLines.add(packedLine);
-                wordStartIndices.add(indexWords(packedLine));
+                lineStartIndices.add(currentIndex);
+                currentIndex += packedLine.length;
             }
         } catch (IOException e) {
             System.out.println("Erro ao ler o arquivo de entrada: " + e.getMessage());
@@ -31,7 +33,7 @@ public class Input {
     }
 
     private char[] packLine(String line) {
-        ArrayList<Character> packedLine = new ArrayList<>();
+        StringBuilder packedLine = new StringBuilder();
         StringBuilder word = new StringBuilder();
 
         for (int i = 0; i < line.length(); i++) {
@@ -41,56 +43,31 @@ public class Input {
                 word.append(currentChar);
             } else {
                 if (word.length() > 0) {
-                    packedLine.addAll(toCharacterList(word.toString()));
-                    packedLine.add(WORD_END_MARKER);
+                    packedLine.append(word);
                     word.setLength(0);
+                }
+                if (currentChar == ' ') {
+                    packedLine.append(' ');
                 }
             }
         }
 
         if (word.length() > 0) {
-            packedLine.addAll(toCharacterList(word.toString()));
-            packedLine.add(WORD_END_MARKER);
+            packedLine.append(word);
         }
 
-        char[] packedArray = new char[packedLine.size()];
-        for (int i = 0; i < packedLine.size(); i++) {
-            packedArray[i] = packedLine.get(i);
-        }
-        return packedArray;
-    }
-
-    private ArrayList<Character> toCharacterList(String str) {
-        ArrayList<Character> charList = new ArrayList<>();
-        for (char c : str.toCharArray()) {
-            charList.add(c);
-        }
-        return charList;
-    }
-
-    private int[] indexWords(char[] packedLine) {
-        ArrayList<Integer> indices = new ArrayList<>();
-        boolean inWord = false;
-
-        for (int i = 0; i < packedLine.length; i++) {
-            if (packedLine[i] != WORD_END_MARKER) {
-                if (!inWord) {
-                    indices.add(i);
-                    inWord = true;
-                }
-            } else {
-                inWord = false;
-            }
+        if (packedLine.length() > 0 && packedLine.charAt(packedLine.length() - 1) != ' ') {
+            packedLine.append(' ');
         }
 
-        return indices.stream().mapToInt(i -> i).toArray();
+        return packedLine.toString().toCharArray();
     }
 
     public ArrayList<char[]> getPackedLines() {
         return packedLines;
     }
 
-    public ArrayList<int[]> getWordStartIndices() {
-        return wordStartIndices;
+    public ArrayList<Integer> getLineStartIndices() {
+        return lineStartIndices;
     }
 }

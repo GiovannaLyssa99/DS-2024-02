@@ -7,7 +7,7 @@ import java.util.List;
 public class Alphabetizer {
 
     private List<CircularShifter.ShiftInfo> shifts;
-    private List<String> sortedShifts;
+    private List<CircularShifter.ShiftInfo> sortedShifts;
     private Input input;
 
     public Alphabetizer(Input input, CircularShifter circularShifter) {
@@ -20,6 +20,10 @@ public class Alphabetizer {
         sortedShifts.clear();
 
         for (CircularShifter.ShiftInfo shift : shifts) {
+            sortedShifts.add(shift);
+        }
+
+        sortedShifts.sort(Comparator.comparing(shift -> {
             char[] packedLine = input.getPackedLines().get(shift.lineIndex);
             StringBuilder shiftString = new StringBuilder();
 
@@ -27,13 +31,11 @@ public class Alphabetizer {
                 shiftString.append(packedLine[(i + shift.startIndex) % packedLine.length]);
             }
 
-            sortedShifts.add(shiftString.toString());
-        }
-
-        sortedShifts.sort(Comparator.naturalOrder());
+            return shiftString.toString();
+        }));
     }
 
-    public List<String> getSortedShifts() {
+    public List<CircularShifter.ShiftInfo> getSortedShifts() {
         return sortedShifts;
     }
 

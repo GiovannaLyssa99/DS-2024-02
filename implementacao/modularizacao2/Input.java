@@ -17,13 +17,12 @@ public class Input {
             String line;
             int lineIndex = 0;
             while ((line = reader.readLine()) != null) {
-                String[] words = line.split(" ");
+                String[] words = line.split("\\s+");
                 for (int wordIndex = 0; wordIndex < words.length; wordIndex++) {
                     String word = words[wordIndex];
                     for (int charIndex = 0; charIndex < word.length(); charIndex++) {
                         lineStorage.setChar(lineIndex, wordIndex, charIndex, word.charAt(charIndex));
                     }
-                    lineStorage.setChar(lineIndex, wordIndex, word.length(), ' ');
                 }
                 lineIndex++;
             }

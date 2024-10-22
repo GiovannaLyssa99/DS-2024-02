@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Output {
 
-    private List<String> sortedShifts;
+    private List<CircularShifter.ShiftInfo> sortedShifts;
     private Input input;
 
     public Output(Input input, Alphabetizer alphabetizer) {
@@ -16,15 +16,15 @@ public class Output {
     }
 
     public void writeOutput(String outputFile) {
-        for (String shift : sortedShifts) {
-            String formattedShift = shift.replace('#', ' ');
+        for (CircularShifter.ShiftInfo shift : sortedShifts) {
+            String formattedShift = generateShiftString(shift);
             System.out.println(formattedShift);
         }
 
         if (outputFile != null) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
-                for (String shift : sortedShifts) {
-                    String formattedShift = shift.replace('#', ' ');
+                for (CircularShifter.ShiftInfo shift : sortedShifts) {
+                    String formattedShift = generateShiftString(shift);
                     writer.write(formattedShift);
                     writer.newLine();
                 }
@@ -32,5 +32,16 @@ public class Output {
                 System.out.println("Erro ao escrever o arquivo de saída: " + e.getMessage());
             }
         }
+    }
+
+    private String generateShiftString(CircularShifter.ShiftInfo shift) {
+        char[] packedLine = input.getPackedLines().get(shift.lineIndex);
+        StringBuilder shiftString = new StringBuilder();
+
+        for (int i = 0; i < packedLine.length; i++) {
+            shiftString.append(packedLine[(i + shift.startIndex) % packedLine.length]);
+        }
+
+        return shiftString.toString();
     }
 }

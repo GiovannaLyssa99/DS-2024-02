@@ -19,11 +19,12 @@ public class MasterControl {
     public void run(String inputFile, String outputFile) {
         input.readLines(inputFile);
         circularShifter.setup();
-        alphabetizer.alphabetize(circularShifter);
-        output.printOutput(alphabetizer.getSortedShifts());
+        String[] sortedShifts = alphabetizer.alphabetize(circularShifter);
+
+        output.printOutput(sortedShifts);
 
         if (outputFile != null && !outputFile.isEmpty()) {
-            output.saveToFile(alphabetizer.getSortedShifts(), outputFile);
+            output.saveToFile(sortedShifts, outputFile);
         }
     }
 
